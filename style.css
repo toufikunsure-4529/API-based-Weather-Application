@@ -1,0 +1,11 @@
+.displayWeather{
+  background-color: aquamarine;
+  padding: 50px 25px;
+  border-radius: 5px;
+}
+.card{
+  transition: all 0.6s;
+}
+.card:hover{
+  transform: scale(1.1);
+}
