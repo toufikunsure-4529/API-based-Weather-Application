@@ -1,11 +1,34 @@
 .displayWeather{
-  background-color: aquamarine;
-  padding: 50px 25px;
-  border-radius: 5px;
+  background-color: darkslategray;
+  padding: 25px 30px 100px;
+  border-radius: 10px;
+
 }
 .card{
   transition: all 0.6s;
+
 }
 .card:hover{
   transform: scale(1.1);
+}
+
+.search{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableData:nth-child(odd){
+  background-color: #666 !important;
+}
+
+.tableData:nth-child(even){
+  background-color: #999 !important;
+}
+
+
+.container{
+  padding-top: 30px;
+  border: 1px solid #dddada;
+  border-radius: 10px;
 }
