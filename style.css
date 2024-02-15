@@ -50,3 +50,20 @@ body{
   position: fixed;
   z-index: 999999;
 }
+
+@media (max-width:750px){
+  .nav{
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding:0 5px;
+  background-color: #1D1C1F;
+}
+
+#nav-logo{
+  display: none;
+}
+
+}
+
+
