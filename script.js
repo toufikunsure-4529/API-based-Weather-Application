@@ -1,4 +1,4 @@
-async function getWeather(city) {
+async function getWeather(city="Murshidabad") {
 
   //Api fecthed url collected by https://rapidapi.com/apininjas/api/weather-by-api-ninjas
 
@@ -19,9 +19,9 @@ async function getWeather(city) {
 
     if (!response.ok) {
       if (response.status === 400) {
-        showErrorMessage();
+        showErrorMessage("Error fetching data. Please try again.");
       } else {
-        showErrorMessage();
+        showErrorMessage("Error fetching data. Please try again.");
       }
       return;  // Exit the function on error
     }
@@ -43,14 +43,15 @@ async function getWeather(city) {
     sunset.innerHTML = result.sunset;
 
     // Show success message
-    showSuccessMessage();
+
+    showSuccessMessage("Data fetched successfully!");
 
     // Update recent search data and store it in local storage
     updateRecentSearchData(city, result);
     storeRecentSearchData(city, result);
 
   } catch (error) {
-    showErrorMessage();
+    showErrorMessage(error);
   }
 }
 
@@ -72,11 +73,18 @@ function updateRecentSearchData(city, result) {
   `;
   recentSearchData.querySelector('tbody').appendChild(newRow);
 }
+// getWeather()
 
 function storeRecentSearchData(city, result) {
   try {
     // Get existing recent searches from local storage
     const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+
+    const index = recentSearches.findIndex(item => item.city === city);
+    if (index !== -1) {
+      // If city exists, remove it from the array
+      recentSearches.splice(index, 1);
+    }
 
     // Add the new search to the array
     recentSearches.push({
@@ -96,9 +104,10 @@ const submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', async (e) => {
   e.preventDefault();// page not reload search onclick
   const cityInput = document.getElementById('cityInput');
-  
+  showSuccessMessage("Fetching Data...")
   // Disable the submit button
   submitButton.disabled = true;
+  
 
   try {
     await getWeather(cityInput.value);
@@ -119,22 +128,58 @@ submitButton.addEventListener('click', async (e) => {
 
 
 
-function showSuccessMessage() {
+function showSuccessMessage(msg) {
   const successMessage = document.getElementById('successMessage');
   const errorMessage = document.getElementById('errorMessage');
   errorMessage.classList.add('d-none');
   successMessage.classList.remove('d-none');
   weatherDetails.style.display = "block"
+  successMessage.textContent=msg
   setTimeout(() => {
     successMessage.classList.add('d-none');
   }, 3000);
 }
 
 
-function showErrorMessage() {
+function showErrorMessage(msg) {
   const successMessage = document.getElementById('successMessage');
   const errorMessage = document.getElementById('errorMessage');
   successMessage.classList.add('d-none');
   errorMessage.classList.remove('d-none');
+  errorMessage.innerHTML=msg
   weatherDetails.style.display = "none"
+}
+
+
+// window.addEventListener('DOMContentLoaded', async () => {
+//   // Get user's current location
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(async (position) => {
+//       const latitude = position.coords.latitude;
+//       const longitude = position.coords.longitude;
+
+//       // Fetch weather data using user's current location
+//       try {
+//         const city = await getCityName(latitude, longitude);
+//         await getWeather(city);
+//       } catch (error) {
+//         console.error('Error getting weather for current location:', error);
+//         showErrorMessage();
+//       }
+//     }, (error) => {
+//       console.error('Error getting current position:', error);
+//       showErrorMessage();
+//     });
+//   } else {
+//     console.error('Geolocation is not supported by this browser.');
+//     showErrorMessage();
+//   }
+// });
+
+async function getCityName(latitude, longitude) {
+  // Fetch city name from coordinates using reverse geocoding
+  const reverseGeocodingUrl = `https://geocode.xyz/${latitude},${longitude}?json=1`;
+  const response = await fetch(reverseGeocodingUrl);
+  const data = await response.json();
+  return data.city;
 }

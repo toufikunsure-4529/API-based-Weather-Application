@@ -1,8 +1,13 @@
+body{
+  background-color: #131214;
+  color: #aaa;
+}
+
 .displayWeather{
-  background-color: darkslategray;
+  background-color: #1D1C1F;
   padding: 25px 30px 100px;
   border-radius: 10px;
-
+  margin-top: 50px;
 }
 .card{
   transition: all 0.6s;
@@ -18,6 +23,7 @@
   justify-content: center;
 }
 
+
 .tableData:nth-child(odd){
   background-color: #666 !important;
 }
@@ -27,8 +33,20 @@
 }
 
 
+
 .container{
   padding-top: 30px;
-  border: 1px solid #dddada;
   border-radius: 10px;
+}
+
+.nav{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 55px;
+  justify-content: space-between;
+  padding:0 100px;
+  background-color: #1D1C1F;
+  position: fixed;
+  z-index: 999999;
 }
